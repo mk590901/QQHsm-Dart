@@ -54,6 +54,7 @@ class MyHomePage extends StatelessWidget implements IUpdater {
         hsmEngine = QQHsmEngine(this);
         hsmEngine.create(text);
         actualEvents = hsmEngine.appEvents()!;
+        print('actualEvents->$actualEvents');
         engineIsLoaded = true;
       }
       else {
@@ -66,7 +67,11 @@ class MyHomePage extends StatelessWidget implements IUpdater {
   @override
   Widget build(BuildContext context) {
 
+    //loadHsmDescriptor();
+
     buttons = List.generate(10, (index) => 'Button $index');
+    // buttons = actualEvents;
+    // print('buttons->$actualEvents');
 
     Future.microtask(() {
       // Ensure this code runs after the build method completes
