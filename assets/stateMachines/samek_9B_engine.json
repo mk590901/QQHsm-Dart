@@ -1,0 +1,363 @@
+{
+  "initstate": "s0",
+  "collection": {
+    "container": [
+      {
+        "state": "s0",
+        "entity": {
+          "container": [
+            {
+              "key": 2,
+              "value": null
+            },
+            {
+              "key": 3,
+              "value": null
+            },
+            {
+              "key": 1,
+              "value": "s1"
+            },
+            {
+              "key": 4,
+              "value": "s211"
+            }
+          ],
+          "superstate": null
+        }
+      },
+      {
+        "state": "s2",
+        "entity": {
+          "container": [
+            {
+              "key": 2,
+              "value": null
+            },
+            {
+              "key": 3,
+              "value": null
+            },
+            {
+              "key": 1,
+              "value": "s21"
+            },
+            {
+              "key": 5,
+              "value": "s1"
+            },
+            {
+              "key": 6,
+              "value": "s11"
+            }
+          ],
+          "superstate": "s0"
+        }
+      },
+      {
+        "state": "s21",
+        "entity": {
+          "container": [
+            {
+              "key": 2,
+              "value": null
+            },
+            {
+              "key": 3,
+              "value": null
+            },
+            {
+              "key": 1,
+              "value": "s211"
+            },
+            {
+              "key": 7,
+              "value": "s211"
+            },
+            {
+              "key": 8,
+              "value": "s21"
+            }
+          ],
+          "superstate": "s2"
+        }
+      },
+      {
+        "state": "s211",
+        "entity": {
+          "container": [
+            {
+              "key": 2,
+              "value": null
+            },
+            {
+              "key": 3,
+              "value": null
+            },
+            {
+              "key": 9,
+              "value": "s0"
+            }
+          ],
+          "superstate": "s21"
+        }
+      },
+      {
+        "state": "s1",
+        "entity": {
+          "container": [
+            {
+              "key": 2,
+              "value": null
+            },
+            {
+              "key": 3,
+              "value": null
+            },
+            {
+              "key": 1,
+              "value": "s11"
+            },
+            {
+              "key": 7,
+              "value": "s11"
+            },
+            {
+              "key": 5,
+              "value": "s2"
+            },
+            {
+              "key": 6,
+              "value": "s211"
+            },
+            {
+              "key": 10,
+              "value": "s1"
+            },
+            {
+              "key": 11,
+              "value": "s0"
+            }
+          ],
+          "superstate": "s0"
+        }
+      },
+      {
+        "state": "s11",
+        "entity": {
+          "container": [
+            {
+              "key": 2,
+              "value": null
+            },
+            {
+              "key": 3,
+              "value": null
+            },
+            {
+              "key": 9,
+              "value": "s211"
+            }
+          ],
+          "superstate": "s1"
+        }
+      }
+    ]
+  },
+  "generator": {
+    "direct": [
+      {
+        "key": "Q_EMPTY_SIG",
+        "value": 0
+      },
+      {
+        "key": "Q_INIT_SIG",
+        "value": 1
+      },
+      {
+        "key": "Q_ENTRY_SIG",
+        "value": 2
+      },
+      {
+        "key": "Q_EXIT_SIG",
+        "value": 3
+      },
+      {
+        "key": "e",
+        "value": 4
+      },
+      {
+        "key": "c",
+        "value": 5
+      },
+      {
+        "key": "f",
+        "value": 6
+      },
+      {
+        "key": "b",
+        "value": 7
+      },
+      {
+        "key": "h",
+        "value": 8
+      },
+      {
+        "key": "g",
+        "value": 9
+      },
+      {
+        "key": "a",
+        "value": 10
+      },
+      {
+        "key": "d",
+        "value": 11
+      }
+    ],
+    "revert": [
+      {
+        "key": 0,
+        "value": "Q_EMPTY_SIG"
+      },
+      {
+        "key": 1,
+        "value": "Q_INIT_SIG"
+      },
+      {
+        "key": 2,
+        "value": "Q_ENTRY_SIG"
+      },
+      {
+        "key": 3,
+        "value": "Q_EXIT_SIG"
+      },
+      {
+        "key": 4,
+        "value": "e"
+      },
+      {
+        "key": 5,
+        "value": "c"
+      },
+      {
+        "key": 6,
+        "value": "f"
+      },
+      {
+        "key": 7,
+        "value": "b"
+      },
+      {
+        "key": 8,
+        "value": "h"
+      },
+      {
+        "key": 9,
+        "value": "g"
+      },
+      {
+        "key": 10,
+        "value": "a"
+      },
+      {
+        "key": 11,
+        "value": "d"
+      }
+    ]
+  },
+  "mediator": {
+    "table": [
+      {
+        "key": "Q_EMPTY_SIG",
+        "value": "Q_EMPTY"
+      },
+      {
+        "key": "Q_INIT_SIG",
+        "value": "Q_INIT"
+      },
+      {
+        "key": "Q_ENTRY_SIG",
+        "value": "Q_ENTRY"
+      },
+      {
+        "key": "Q_EXIT_SIG",
+        "value": "Q_EXIT"
+      },
+      {
+        "key": "e_SIG",
+        "value": "e"
+      },
+      {
+        "key": "c_SIG",
+        "value": "c"
+      },
+      {
+        "key": "f_SIG",
+        "value": "f"
+      },
+      {
+        "key": "b_SIG",
+        "value": "b"
+      },
+      {
+        "key": "h_SIG",
+        "value": "h"
+      },
+      {
+        "key": "g_SIG",
+        "value": "g"
+      },
+      {
+        "key": "a_SIG",
+        "value": "a"
+      },
+      {
+        "key": "d_SIG",
+        "value": "d"
+      },
+      {
+        "key": "INIT_SIG",
+        "value": "INIT"
+      }
+    ],
+    "connector": [
+      {
+        "key": 1,
+        "value": "e_SIG"
+      },
+      {
+        "key": 2,
+        "value": "c_SIG"
+      },
+      {
+        "key": 3,
+        "value": "f_SIG"
+      },
+      {
+        "key": 4,
+        "value": "b_SIG"
+      },
+      {
+        "key": 5,
+        "value": "h_SIG"
+      },
+      {
+        "key": 6,
+        "value": "g_SIG"
+      },
+      {
+        "key": 7,
+        "value": "a_SIG"
+      },
+      {
+        "key": 8,
+        "value": "d_SIG"
+      },
+      {
+        "key": 9,
+        "value": "INIT_SIG"
+      }
+    ]
+  }
+}
