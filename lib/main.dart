@@ -8,11 +8,11 @@ import 'interfaces/i_updater.dart';
 import 'samek_9B_wrapper.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(HsmEngineDemoApp());
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({super.key});
+class HsmEngineDemoApp extends StatelessWidget {
+  HsmEngineDemoApp({super.key});
 
   final ListBloc listBloc = ListBloc();
   final ButtonBloc buttonBloc = ButtonBloc();
@@ -26,10 +26,6 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
         useMaterial3: true,
       ),
-      // home: BlocProvider(
-      //   create: (context) => listBloc,
-      //   child: MyHomePage(listBloc),
-      // ),
       home: MultiBlocProvider(
         providers: [
           BlocProvider<ButtonBloc>(
@@ -39,35 +35,29 @@ class MyApp extends StatelessWidget {
             create: (context) => listBloc,
           ),
         ],
-        child: MyHomePage(listBloc, buttonBloc),
+        child: HomePage(listBloc, buttonBloc),
       ),
-
     );
   }
 }
 
-class MyHomePage extends StatelessWidget implements IUpdater {
-
-  //final List<String> buttons = List.generate(10, (index) => 'Button $index');
-
+class HomePage extends StatelessWidget implements IUpdater {
   final ListBloc listBloc;
   final ButtonBloc buttonBloc;
 
-  late List<String> buttons = [];
-
-  late  bool  engineIsLoaded  = false;
-  late  List<String> actualEvents = [];
-  final String  _fileName = "assets/stateMachines/samek_9B_engine.json";
-  late  QQHsmEngine hsmEngine;
+  late bool engineIsLoaded = false;
+  late List<String> actualEvents = [];
+  final String _fileName = "assets/stateMachines/samek_9B_engine.json";
+  late QQHsmEngine hsmEngine;
   final Samek9BWrapper hsmWrapper = Samek9BWrapper();
 
-  MyHomePage(this.listBloc, this.buttonBloc, {super.key});
+  HomePage(this.listBloc, this.buttonBloc, {super.key});
 
   Future<String> getFileData(String path) async {
     return await rootBundle.loadString(path);
   }
 
-  void loadHsmDescriptor() {
+  void initHsmEngine() {
     getFileData(_fileName).then((String text) {
       if (text.isNotEmpty) {
         hsmEngine = QQHsmEngine(this);
@@ -75,12 +65,9 @@ class MyHomePage extends StatelessWidget implements IUpdater {
         actualEvents = hsmEngine.appEvents()!;
         print('actualEvents->$actualEvents');
         engineIsLoaded = true;
-
-        //buttonBloc.add(AddButtonList(actualEvents));
         buttonBloc.add(AddButtonList(actualEvents));
-      }
-      else {
-        print ('Failed to loaded $_fileName');
+      } else {
+        print('Failed to loaded $_fileName');
         return;
       }
     });
@@ -88,32 +75,40 @@ class MyHomePage extends StatelessWidget implements IUpdater {
 
   @override
   Widget build(BuildContext context) {
-
-    //loadHsmDescriptor();
-
-    //buttons = List.generate(10, (index) => 'Button $index');
-    //buttons = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-
-    // buttons = actualEvents;
-    // print('buttons->$actualEvents');
-
     Future.microtask(() {
       // Ensure this code runs after the build method completes
       if (context.mounted) {
-        print('******* INIT ENGINE *******');
-        loadHsmDescriptor();
-
-        // context.read<ListBloc>().add(const AddItem('Initial Item'));
-      // ApplicationHolder.holder()?.initSimulator(() {
-      //   print ('******* REFRESH SIMULATION WIDGET *******');
-      //   simulationWidget.refresh();
-      // });
+        initHsmEngine();
       }
     });
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Two Part List View with BLoC'),
+        title: const Text('Hsm Engine Demo',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontStyle: FontStyle.italic,
+              shadows: [
+                Shadow(
+                  blurRadius: 8.0,
+                  color: Colors.indigo,
+                  offset: Offset(3.0, 3.0),
+                ),
+              ],
+            )),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.purple, Colors.lightBlue],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        leading: IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.electric_bolt_sharp, color: Colors.white)),
       ),
       body: Column(
         children: [
@@ -130,16 +125,30 @@ class MyHomePage extends StatelessWidget implements IUpdater {
                         onDismissed: (direction) {
                           context.read<ListBloc>().add(DeleteItem(item));
                         },
-                        background: Container(color: Colors.blueGrey),
+                        background: Container(
+                          color: Colors.grey,
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: const Icon(Icons.delete, color: Colors.white),
+                        ),
+                        secondaryBackground: Container(
+                          color: Colors.blueGrey,
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: const Icon(Icons.delete, color: Colors.white),
+                        ),
                         child: ListTile(
-                          title: Text(item),
+                          title: Text(
+                            item,
+                            style: const TextStyle(fontSize: 12),
+                          ),
                         ),
                       );
                     },
                     separatorBuilder: (context, index) {
                       return const Divider(
                         height: 1,
-                        color: Colors.blueAccent,
+                        color: Colors.blueGrey,
                       );
                     },
                   );
@@ -148,8 +157,6 @@ class MyHomePage extends StatelessWidget implements IUpdater {
               },
             ),
           ),
-
-          //Expanded(
           SizedBox(
             height: 80,
             child: BlocBuilder<ButtonBloc, ButtonState>(
@@ -162,10 +169,28 @@ class MyHomePage extends StatelessWidget implements IUpdater {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue.shade200,
+                            foregroundColor: Colors.white,
+                            shadowColor: Colors.indigo,
+                            elevation: 4.0,
+                          ),
                           onPressed: () {
                             done(state.buttons[index]);
                           },
-                          child: Text(state.buttons[index]),
+                          child: Text(
+                            state.buttons[index].toUpperCase(),
+                            style: const TextStyle(
+                              fontSize: 20,
+                              shadows: [
+                                Shadow(
+                                  blurRadius: 8.0,
+                                  color: Colors.indigo,
+                                  offset: Offset(3.0, 3.0),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       );
                     },
@@ -174,51 +199,24 @@ class MyHomePage extends StatelessWidget implements IUpdater {
               },
             ),
           ),
-
-          /*
-          SizedBox(
-            height: 100,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: actualEvents.map((button) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        //context.read<ListBloc>().add(AddItem(button));
-                        done(button);
-                      },
-                      child: Text(button),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-        */
-
-
         ],
       ),
     );
   }
 
-  void done (String eventName) {
+  void done(String eventName) {
     hsmEngine.done(eventName);
   }
 
   @override
-  void trace(String event, String? log) {
-    print('trace [$event] -> $log');
-    String traceLog = log?? '';
+  void trace(String event, String? loggerLine) {
+    String traceLog = loggerLine ?? '';
     String textLine = '@$event: $traceLog';
-    listBloc.add(AddItem(/*traceLog*/textLine));
+    listBloc.add(AddItem(textLine));
   }
 
   @override
   void transition(String state, String event) {
     print('transition [$state] -> $event');
-    //@hsmWrapper.done(state, event);
   }
 }
