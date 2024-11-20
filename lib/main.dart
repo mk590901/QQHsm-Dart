@@ -5,7 +5,7 @@ import 'blocs/list_bloc.dart';
 import 'blocs/button_bloc.dart';
 import 'QQHsm/QQHsmEngine.dart';
 import 'interfaces/i_updater.dart';
-import 'samek_9B_wrapper.dart';
+import 'scheme/samek_9B_wrapper.dart';
 
 void main() {
   runApp(HsmEngineDemoApp());

@@ -1,5 +1,5 @@
 //	Class Samek9BWrapper automatically generated at 2024-10-27 09:21:41
-import 'core/utilities/utils.dart';
+import '../core/utilities/utils.dart';
 
 class Samek9BWrapper {
 	Map<String, void Function()> lookupTable = <String, void Function()>{};
