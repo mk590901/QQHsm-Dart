@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'list_bloc.dart';
+import 'button_bloc.dart';
 import 'QQHsm/QQHsmEngine.dart';
 import 'interfaces/i_updater.dart';
 import 'samek_9B_wrapper.dart';
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
   MyApp({super.key});
 
   final ListBloc listBloc = ListBloc();
+  final ButtonBloc buttonBloc = ButtonBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +26,22 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
         useMaterial3: true,
       ),
-      home: BlocProvider(
-        create: (context) => /*ListBloc()*/listBloc,
-        child: MyHomePage(listBloc),
+      // home: BlocProvider(
+      //   create: (context) => listBloc,
+      //   child: MyHomePage(listBloc),
+      // ),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider<ButtonBloc>(
+            create: (context) => buttonBloc,
+          ),
+          BlocProvider<ListBloc>(
+            create: (context) => listBloc,
+          ),
+        ],
+        child: MyHomePage(listBloc, buttonBloc),
       ),
+
     );
   }
 }
@@ -37,6 +51,7 @@ class MyHomePage extends StatelessWidget implements IUpdater {
   //final List<String> buttons = List.generate(10, (index) => 'Button $index');
 
   final ListBloc listBloc;
+  final ButtonBloc buttonBloc;
 
   late List<String> buttons = [];
 
@@ -46,7 +61,7 @@ class MyHomePage extends StatelessWidget implements IUpdater {
   late  QQHsmEngine hsmEngine;
   final Samek9BWrapper hsmWrapper = Samek9BWrapper();
 
-  MyHomePage(this.listBloc, {super.key});
+  MyHomePage(this.listBloc, this.buttonBloc, {super.key});
 
   Future<String> getFileData(String path) async {
     return await rootBundle.loadString(path);
@@ -60,6 +75,9 @@ class MyHomePage extends StatelessWidget implements IUpdater {
         actualEvents = hsmEngine.appEvents()!;
         print('actualEvents->$actualEvents');
         engineIsLoaded = true;
+
+        //buttonBloc.add(AddButtonList(actualEvents));
+        buttonBloc.add(AddButtonList(actualEvents));
       }
       else {
         print ('Failed to loaded $_fileName');
@@ -74,7 +92,7 @@ class MyHomePage extends StatelessWidget implements IUpdater {
     //loadHsmDescriptor();
 
     //buttons = List.generate(10, (index) => 'Button $index');
-    buttons = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+    //buttons = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 
     // buttons = actualEvents;
     // print('buttons->$actualEvents');
@@ -124,12 +142,40 @@ class MyHomePage extends StatelessWidget implements IUpdater {
               },
             ),
           ),
+
+          //Expanded(
+          SizedBox(
+            height: 80,
+            child: BlocBuilder<ButtonBloc, ButtonState>(
+              builder: (context, state) {
+                return Container(
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: state.buttons.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            done(state.buttons[index]);
+                          },
+                          child: Text(state.buttons[index]),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+
+          /*
           SizedBox(
             height: 100,
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: buttons.map((button) {
+                children: actualEvents.map((button) {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
@@ -144,6 +190,9 @@ class MyHomePage extends StatelessWidget implements IUpdater {
               ),
             ),
           ),
+        */
+
+
         ],
       ),
     );
@@ -157,7 +206,8 @@ class MyHomePage extends StatelessWidget implements IUpdater {
   void trace(String event, String? log) {
     print('trace [$event] -> $log');
     String traceLog = log?? '';
-    listBloc.add(AddItem(traceLog));
+    String textLine = '@$event: $traceLog';
+    listBloc.add(AddItem(/*traceLog*/textLine));
   }
 
   @override
