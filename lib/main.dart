@@ -7,11 +7,13 @@ import 'interfaces/i_updater.dart';
 import 'samek_9B_wrapper.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final ListBloc listBloc = ListBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +25,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: BlocProvider(
-        create: (context) => ListBloc(),
-        child: MyHomePage(),
+        create: (context) => /*ListBloc()*/listBloc,
+        child: MyHomePage(listBloc),
       ),
     );
   }
@@ -34,6 +36,8 @@ class MyHomePage extends StatelessWidget implements IUpdater {
 
   //final List<String> buttons = List.generate(10, (index) => 'Button $index');
 
+  final ListBloc listBloc;
+
   late List<String> buttons = [];
 
   late  bool  engineIsLoaded  = false;
@@ -42,7 +46,7 @@ class MyHomePage extends StatelessWidget implements IUpdater {
   late  QQHsmEngine hsmEngine;
   final Samek9BWrapper hsmWrapper = Samek9BWrapper();
 
-  MyHomePage({super.key});
+  MyHomePage(this.listBloc, {super.key});
 
   Future<String> getFileData(String path) async {
     return await rootBundle.loadString(path);
@@ -69,7 +73,9 @@ class MyHomePage extends StatelessWidget implements IUpdater {
 
     //loadHsmDescriptor();
 
-    buttons = List.generate(10, (index) => 'Button $index');
+    //buttons = List.generate(10, (index) => 'Button $index');
+    buttons = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+
     // buttons = actualEvents;
     // print('buttons->$actualEvents');
 
@@ -77,10 +83,9 @@ class MyHomePage extends StatelessWidget implements IUpdater {
       // Ensure this code runs after the build method completes
       if (context.mounted) {
         print('******* INIT ENGINE *******');
-
         loadHsmDescriptor();
 
-        context.read<ListBloc>().add(const AddItem('Initial Item'));
+        // context.read<ListBloc>().add(const AddItem('Initial Item'));
       // ApplicationHolder.holder()?.initSimulator(() {
       //   print ('******* REFRESH SIMULATION WIDGET *******');
       //   simulationWidget.refresh();
@@ -129,7 +134,8 @@ class MyHomePage extends StatelessWidget implements IUpdater {
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        context.read<ListBloc>().add(AddItem(button));
+                        //context.read<ListBloc>().add(AddItem(button));
+                        done(button);
                       },
                       child: Text(button),
                     ),
@@ -143,9 +149,15 @@ class MyHomePage extends StatelessWidget implements IUpdater {
     );
   }
 
+  void done (String eventName) {
+    hsmEngine.done(eventName);
+  }
+
   @override
   void trace(String event, String? log) {
     print('trace [$event] -> $log');
+    String traceLog = log?? '';
+    listBloc.add(AddItem(traceLog));
   }
 
   @override
@@ -154,83 +166,3 @@ class MyHomePage extends StatelessWidget implements IUpdater {
     //@hsmWrapper.done(state, event);
   }
 }
-
-/*
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Two Part List View with BLoC',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: BlocProvider(
-        create: (context) => ListBloc(),
-        child: MyHomePage(),
-      ),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  final List<String> buttons = List.generate(10, (index) => 'Button $index');
-
-  MyHomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Two Part List View with BLoC'),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: BlocBuilder<ListBloc, ListState>(
-              builder: (context, state) {
-                if (state is ListLoaded) {
-                  return ListView.builder(
-                    itemCount: state.items.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(state.items[index]),
-                      );
-                    },
-                  );
-                }
-                return const Center(child: CircularProgressIndicator());
-              },
-            ),
-          ),
-          SizedBox(
-            height: 100,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: buttons.map((button) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        context.read<ListBloc>().add(AddItem(button));
-                      },
-                      child: Text(button),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-*/
