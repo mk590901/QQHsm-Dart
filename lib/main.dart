@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'list_bloc.dart';
-import 'button_bloc.dart';
+import 'blocs/list_bloc.dart';
+import 'blocs/button_bloc.dart';
 import 'QQHsm/QQHsmEngine.dart';
 import 'interfaces/i_updater.dart';
 import 'samek_9B_wrapper.dart';
