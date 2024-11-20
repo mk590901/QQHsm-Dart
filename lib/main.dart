@@ -121,7 +121,7 @@ class MyHomePage extends StatelessWidget implements IUpdater {
             child: BlocBuilder<ListBloc, ListState>(
               builder: (context, state) {
                 if (state is ListLoaded) {
-                  return ListView.builder(
+                  return ListView.separated(
                     itemCount: state.items.length,
                     itemBuilder: (context, index) {
                       final item = state.items[index];
@@ -130,10 +130,16 @@ class MyHomePage extends StatelessWidget implements IUpdater {
                         onDismissed: (direction) {
                           context.read<ListBloc>().add(DeleteItem(item));
                         },
-                        background: Container(color: Colors.red),
+                        background: Container(color: Colors.blueGrey),
                         child: ListTile(
                           title: Text(item),
                         ),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const Divider(
+                        height: 1,
+                        color: Colors.blueAccent,
                       );
                     },
                   );
