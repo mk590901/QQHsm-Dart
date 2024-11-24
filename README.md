@@ -18,14 +18,14 @@ Actually, the solution to the problem comes down to replacing calls like __t = t
 ## Data structure
 Data structure replacing the state as method of the class is given below:
 
-![umlw](https://github.com/user-attachments/assets/140efdb0-743b-4c93-a580-3566c70132e2)
+![uml](https://github.com/user-attachments/assets/b6a855d9-3846-46fe-9216-e2d960babfea)
 
 ## Prerequisites
 The HSM editor needs to be supplemented with a new compiler that generates a data structure describing the hierarchical state machine and create a file containing a set of transfer functions called when transitioning from a given state when events arrive. Naturally, it is necessary to create a framework, or rather an API, that provides sending events to the state machine and receiving a response in the form of transactions to call transfer functions.
 
 ## Goals
-* The first goal: to simplify the application by reducing interaction with the state machine to sending events and receiving keys to call transfer functions.
-* The second goal: getting rid of the code describing the state machine. This solution will allow removing the description of the state machine from the application and considering the state machine as an external resource. In other words, the application logic can be changed from the outside: either without changing the code, or by limiting it to minimal changes.
+* The first: to simplify the application by reducing interaction with the state machine to sending events and receiving keys to call transfer functions.
+* The second: getting rid of the code describing the state machine. This solution will allow removing the description of the state machine from the application and considering the state machine as an external resource. In other words, the application logic can be changed from the outside: either without changing the code, or by limiting it to minimal changes.
 
 ## Implementation
 The developer receives two files as a result of compiling the scheme: a data file describing the state machine in json format and a <project name>_wrapper.dart file with prototypes of transition functions.
