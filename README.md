@@ -28,12 +28,12 @@ The HSM editor needs to be supplemented with a new compiler that generates a dat
 * The second: getting rid of the code describing the state machine. This solution will allow removing the description of the state machine from the application and considering the state machine as an external resource. In other words, the application logic can be changed from the outside: either without changing the code, or by limiting it to minimal changes.
 
 ## Implementation
-The developer receives two files as a result of compiling the scheme: a data file describing the state machine in json format and a <project name>_wrapper.dart file with prototypes of transition functions.
+The developer receives two files as a result of compiling the scheme: a data file describing the state machine in json format and a <project_name>_wrapper.dart file with prototypes of transition functions.
 
 ## Application structure
 * Framework is in folders QQBridge, QQContextObject, QQHsm and QQMediator
 • Description of state machine in json format is placed in the __assets folder__. This is done to simplify access to the file. Nothing prevents you from placing it in public folders Documents, Downloads, etc...
-• File <project name>_wrapper.dart is in folder __scheme__.
+• File <project_name>_wrapper.dart is in folder __scheme__.
 • GUI app is main.dart
 
 ## Application description
