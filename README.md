@@ -2,7 +2,7 @@
 
 A other QHsm implementation.
 
-## Introduction. A bit of theory.
+## Introduction. A bit of theory
 The application of a state machine is based on a very simple principle: need to find the state of the state machine to which it will transition from the current state under the influence of an event. When a transition occurs, the transition function is launched.
 
 A regular flat state machine can be represented by a vector of states, each of which contains a table of transitions to the target state under the influence of an event. This table may also contain a pointer to the transition function. If a pair <current state, target state> is found in the table, the target state becomes current, and the transition function is launched. If a suitable pair is not found, the state machine remains in the previous state.
