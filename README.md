@@ -31,6 +31,7 @@ The HSM editor needs to be supplemented with a new compiler that generates a dat
 The developer receives two files as a result of compiling the scheme: a data file describing the state machine in json format and a <project_name>_wrapper.dart file with prototypes of transition functions.
 
 ## Application structure
+
 * Framework is in folders QQBridge, QQContextObject, QQHsm and QQMediator
 • Description of state machine in json format is placed in the __assets folder__. This is done to simplify access to the file. Nothing prevents you from placing it in public folders Documents, Downloads, etc...
 • File <project_name>_wrapper.dart is in folder __scheme__.
