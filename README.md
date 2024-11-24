@@ -21,7 +21,7 @@ Data structure replacing the state as method of the class is given below:
 ![uml](https://github.com/user-attachments/assets/b6a855d9-3846-46fe-9216-e2d960babfea)
 
 ## Prerequisites
-The HSM editor needs to be supplemented with a new compiler that generates a data structure describing the hierarchical state machine and create a file containing a set of transfer functions called when transitioning from a given state when events arrive. Naturally, it is necessary to create a framework, or rather an API, that provides sending events to the state machine and receiving a response in the form of transactions to call transfer functions.
+The HSM editor needs to be supplemented with a new compiler that generates a data structure describing the hierarchical state machine and create a file containing a set of transfer functions called when transitioning from a given state when events arrive. Naturally, it's need to create a framework, or rather an API, that provides sending events to the state machine and receiving a response in the form of transactions to call transfer functions.
 
 ## Goals
 * The first: to simplify the application by reducing interaction with the state machine to sending events and receiving keys to call transfer functions.
