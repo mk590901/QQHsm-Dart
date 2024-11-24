@@ -54,8 +54,6 @@ Shows the contents of 2 files: json & launching an application using the wrapper
 
 Uploading qqhsm1.mp4…
 
-
-
 ## Conclusions
 The proposed approach to describing and navigating transitions in the state machine is not some kind of innovation, but represents a different interpretation of known principles.
 
